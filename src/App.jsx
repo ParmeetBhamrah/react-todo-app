@@ -5,6 +5,20 @@ import TodoList from "./components/TodoList";
 function App() {
   const [todos, setTodos] = useState([]);
 
+  const FILTERS = {
+    ALL: "All",
+    ACTIVE: "Active",
+    COMPLETED: "Completed",
+  }
+
+  const [filter, setFilter] = useState(FILTERS.ALL)
+
+  const visibleTodos = todos.filter(todo => {
+    if (filter === FILTERS.ACTIVE) return !todo.done
+    if (filter === FILTERS.COMPLETED) return todo.done
+    return true
+  })
+
   function addTodo(text) {
     const newTodo = {
       id: Date.now(),
@@ -31,7 +45,18 @@ function App() {
           Todo App
         </h1>
         <TodoInput onAddTodo={addTodo} />
-        <TodoList todos={todos} onDeleteTodo={deleteTodo} onToggleTodo={toggleTodo} />
+        <div className="flex justify-center gap-2 mb-4">
+          {Object.values(FILTERS).map(f => (
+            <button 
+              key={f} 
+              onClick={() => setFilter(f)}
+              className={`px-3 py-2 rounded-md ${filter === f ? "bg-blue-500 text-white" : ""}`}
+              >
+              {f}
+            </button>
+          ))}
+        </div>
+        <TodoList todos={visibleTodos} onDeleteTodo={deleteTodo} onToggleTodo={toggleTodo} />
       </div>
     </div>
   );
