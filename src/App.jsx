@@ -9,9 +9,15 @@ function App() {
     const newTodo = {
       id: Date.now(),
       text: text,
+      done: false
     };
 
     setTodos((prevTodos) => [...prevTodos, newTodo]);
+  }
+
+  function toggleTodo(id) {
+    setTodos(prevTodos => prevTodos.map(todo =>
+      todo.id === id? {...todo, done: !todo.done} : todo))
   }
 
   function deleteTodo(id) {
@@ -25,7 +31,7 @@ function App() {
           Todo App
         </h1>
         <TodoInput onAddTodo={addTodo} />
-        <TodoList todos={todos} onDeleteTodo={deleteTodo} />
+        <TodoList todos={todos} onDeleteTodo={deleteTodo} onToggleTodo={toggleTodo} />
       </div>
     </div>
   );

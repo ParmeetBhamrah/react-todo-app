@@ -1,9 +1,12 @@
 import React from 'react'
 
-const TodoItem = ({ todo, onDelete }) => {
+const TodoItem = ({ todo, onDelete, onToggle }) => {
     return (
     <li className='bg-gray-50 px-3 py-2 rounded-md flex justify-between items-center'>
-        <span>{todo.text}</span>
+        <span 
+            onClick={() => onToggle(todo.id)}
+            className={`cursor-pointer ${todo.done ? "line-through text-gray-400" : ""}`}
+        >{todo.text}</span>
         <button
             onClick={() => onDelete(todo.id)}
             className='bg-red-500 text-white px-2 py-1 rounded-md hover:bg-red-600'
